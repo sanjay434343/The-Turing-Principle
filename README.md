@@ -1174,8 +1174,8 @@ def plot_turing_dynamics(simulation_history, scenario_name):
 # Example usage
 if __name__ == "__main__":
     print("🤖 LAUNCHING TURING'S COMPUTATIONAL DYNAMICS SIMULATOR")
-    print("    'Sometimes it is the people no one expects anything from')
-    print('    who do the things no one can imagine.' - Alan Turing")
+    print("    'Sometimes it is the people no one expects anything from'")
+    print("    who do the things no one can imagine." ' - Alan Turing')
     print()
     
     # Interactive menu
@@ -1185,9 +1185,10 @@ if __name__ == "__main__":
     print("3. Intelligent Content Platform (5B users)")
     print("4. Autonomous Trading System (1T transactions)")
     print("5. Smart City Infrastructure (1T sensors)")
+    print("6. Use current device CPU and available GPU")
     
-    choice = input("\nSelect option (1-5): ").strip()
-    
+    choice = input("\nSelect option (1-6): ").strip()
+
     if choice == '1':
         results = run_turing_trillion_scale_simulations()
     elif choice in ['2', '3', '4', '5']:
@@ -1203,10 +1204,36 @@ if __name__ == "__main__":
         engine.simulate_scenario(scenario_name, 24.0)
         engine.generate_comprehensive_report()
         
-        # Offer visualization
         plot_option = input("\nGenerate Turing dynamics plots? (y/n): ").lower().strip()
         if plot_option == 'y':
             plot_turing_dynamics(engine.simulation_history, scenario_name)
+    elif choice == '6':
+        print("\n🔍 Detecting current device CPU and GPU...")
+        try:
+            import platform
+            import psutil
+            cpu_info = platform.processor() or platform.machine()
+            cpu_count = psutil.cpu_count(logical=True)
+            print(f"CPU: {cpu_info} ({cpu_count} cores)")
+        except ImportError:
+            print("psutil not installed. Install with: pip install psutil")
+        try:
+            import torch
+            if torch.cuda.is_available():
+                print(f"GPU: {torch.cuda.get_device_name(0)} (CUDA available)")
+            else:
+                print("No powerful GPU detected. Using CPU only.")
+        except ImportError:
+            print("PyTorch not installed. Install with: pip install torch")
+        # Simulate some DB calculations using CPU only
+        print("\nSimulating database calculations using CPU cores...")
+        queries_per_core = 5000  # Example: 5000 queries/sec per core
+        total_queries_per_sec = cpu_count * queries_per_core
+        avg_latency_ms = 1000 / queries_per_core  # ms per query
+        print(f"Estimated DB Throughput: {total_queries_per_sec:,} queries/sec")
+        print(f"Average Query Latency: {avg_latency_ms:.2f} ms")
+        print("Sample Workload: 70% SELECT, 20% INSERT, 10% JOIN")
+        print("Simulated DB performance based on CPU parallelism.")
     else:
         print("Invalid selection!")
     
